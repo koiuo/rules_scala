@@ -59,10 +59,10 @@ def _scala_toolchain_impl(ctx):
     if dependency_mode not in ("direct", "plus-one", "transitive"):
         fail("Internal error: invalid dependency_mode " + dependency_mode)
 
-    if strict_deps_mode not in ("off", "warn", "error"):
+    if strict_deps_mode not in ("off", "silent", "warn", "error"):
         fail("Internal error: invalid strict_deps_mode " + strict_deps_mode)
 
-    if compiler_deps_mode not in ("off", "warn", "error"):
+    if compiler_deps_mode not in ("off", "silent", "warn", "error"):
         fail("Internal error: invalid compiler_deps_mode " + compiler_deps_mode)
 
     if dependency_tracking_method not in ("ast-plus", "ast", "high-level"):
@@ -121,15 +121,15 @@ scala_toolchain = rule(
         ),
         "strict_deps_mode": attr.string(
             default = "default",
-            values = ["off", "warn", "error", "default"],
+            values = ["off", "silent", "warn", "error", "default"],
         ),
         "unused_dependency_checker_mode": attr.string(
             default = "off",
-            values = ["off", "warn", "error"],
+            values = ["off", "silent", "warn", "error"],
         ),
         "compiler_deps_mode": attr.string(
             default = "off",
-            values = ["off", "warn", "error"],
+            values = ["off", "silent", "warn", "error"],
         ),
         "dependency_tracking_method": attr.string(
             default = "default",

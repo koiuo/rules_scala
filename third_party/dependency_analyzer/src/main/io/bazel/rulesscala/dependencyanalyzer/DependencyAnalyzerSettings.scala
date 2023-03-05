@@ -9,7 +9,7 @@ object AnalyzerMode {
     mode match {
       case "error" => Some(Error)
       case "warn" => Some(Warn)
-      case "off" => Some(Off)
+      case "off" | "silent" => Some(Off)
       case _ => None
     }
   }

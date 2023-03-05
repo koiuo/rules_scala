@@ -183,7 +183,7 @@ public class DepsTrackingReporter extends ConsoleReporter {
       Reporter reporter) {
     if (ops.dependencyTrackingMethod.equals("ast-plus")) {
 
-      if (!ops.strictDepsMode.equals("off")) {
+      if (!isSuppressed(ops.strictDepsMode)) {
         boolean isWarning = ops.strictDepsMode.equals("warn");
         StringBuilder strictDepsReport = new StringBuilder("Missing strict dependencies:\n");
         StringBuilder compilerDepsReport = new StringBuilder("Missing compiler dependencies:\n");
@@ -220,7 +220,7 @@ public class DepsTrackingReporter extends ConsoleReporter {
           }
         }
 
-        if (!ops.compilerDepsMode.equals("off") && compilerDepsCount > 0) {
+        if (!isSuppressed(ops.compilerDepsMode) && compilerDepsCount > 0) {
           if (ops.compilerDepsMode.equals("warn")) {
             reporter.warning(NoPosition$.MODULE$, compilerDepsReport.toString());
           } else {
@@ -229,7 +229,7 @@ public class DepsTrackingReporter extends ConsoleReporter {
         }
       }
 
-      if (!ops.unusedDependencyCheckerMode.equals("off")) {
+      if (!isSuppressed(ops.unusedDependencyCheckerMode)) {
         boolean isWarning = ops.unusedDependencyCheckerMode.equals("warn");
         StringBuilder unusedDepsReport = new StringBuilder("Unused dependencies:\n");
         int count = 0;
@@ -251,6 +251,10 @@ public class DepsTrackingReporter extends ConsoleReporter {
         }
       }
     }
+  }
+
+  private boolean isSuppressed(String checkerMode) {
+    return checkerMode.equals("off") || checkerMode.equals("silent");
   }
 
   private String addDepMessage(Dependency dep) {
